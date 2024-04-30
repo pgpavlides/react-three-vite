@@ -1,12 +1,13 @@
 import React, { useRef,useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Box, OrbitControls } from "@react-three/drei";
+import { Box, OrbitControls, ScrollControls } from "@react-three/drei";
 import { Experience } from "./Experience";
 
 
 const App = () => {
 
   const [canvasClassName, setCanvasClassName] = useState("canvasStyleDefault");
+  const [controlSwitch, setControlSwitch] = useState(false);
 
 
   const handleTouchStart = (e) => {
@@ -19,15 +20,19 @@ const App = () => {
     }
   };
 
-  return (
+  return (  
+    <>
+    
     <Canvas onScroll={e => console.log('onScroll')}
-    // onTouchStart={handleTouchStart}
-    // onTouchEnd={handleTouchStart} // This handles touch end with the same logic, consider separating if needed
-    className={`canvasmain ${canvasClassName}`} // Dynamically apply class
+    onTouchStart={handleTouchStart}
+    onTouchEnd={handleTouchStart} 
+    className={`canvasmain ${canvasClassName}`} 
     shadows camera={{ fov: 70, position: [0, 0, 3] }}>
-      <OrbitControls />
       <Experience/>
+
     </Canvas>
+   
+    </>
   );
 };
 

@@ -1,33 +1,35 @@
 import React, { useRef, useState, useLayoutEffect } from "react";
-import { useGLTF, Html } from "@react-three/drei";
+import { useGLTF, Html, meshBounds } from "@react-three/drei";
 import { motion } from "framer-motion-3d";
 import { data } from "./data";
+import * as THREE from 'three';
 
 export function Model(props) {
-  const { nodes, materials } = useGLTF("https://milos.hipos.gr/wp-content/uploads/2024/04/Milos_Island_v01.glb");
+  const { nodes, materials } = useGLTF("https://welcome.hipos.gr/wp-content/uploads/2024/04/Milos_Island_v01.glb");
 
   const [hovered, setHovered] = useState(false);
 
   const [popupContent, setPopupContent] = useState(null);
 
+  const newMaterial = new THREE.MeshBasicMaterial({
+    color: 0xff0000 // Red color
+});
+
   const handleMeshClick = meshData => {
     setPopupContent(
-        
-      <div className='popup'>
-        
-        <div>
+      <div className='popup_container' initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+        <div className='popup__image__container'>
           <img className='popup__image' src={meshData.image} alt='Mesh Image' />
         </div>
         <div className='popup__data'>
           <h2>{meshData.title}</h2>
           <p>{meshData.data}</p>
+          
         </div>
         <button className='closeButton' onClick={() => setPopupContent(null)}>
-              X
-            </button>
-      
+          X
+        </button>
       </div>
-        
     );
   };
 
@@ -43,7 +45,7 @@ export function Model(props) {
         castShadow
         receiveShadow
         geometry={nodes.Milos.geometry}
-        material={materials["SVGMat.005"]}
+        material={newMaterial}
         position={[0, 0.009, 0]}
         scale={2.278}
       >
@@ -58,6 +60,7 @@ export function Model(props) {
       </mesh>
 
       <motion.mesh
+        raycast={meshBounds}
         castShadow
         receiveShadow
         geometry={nodes.Beach_1.geometry}
@@ -69,6 +72,7 @@ export function Model(props) {
         onClick={() => handleMeshClick({ image: data[0].image, title: data[0].title, data: data[0].text })}
       />
       <motion.mesh
+        raycast={meshBounds}
         castShadow
         receiveShadow
         geometry={nodes.Beach_2.geometry}
@@ -77,9 +81,10 @@ export function Model(props) {
         scale={0.168}
         whileHover={{ scale: 0.3 }}
         whileTap={{ scale: 0.168 }}
-        onClick={() => handleMeshClick({ image: data[0].image, title: data[0].title, data: data[0].text })}
+        onClick={() => handleMeshClick({ image: data[9].image, title: data[9].title, data: data[9].text })}
       />
       <motion.mesh
+        raycast={meshBounds}
         castShadow
         receiveShadow
         geometry={nodes.Beach_3.geometry}
@@ -88,12 +93,13 @@ export function Model(props) {
         scale={0.168}
         whileHover={{ scale: 0.3 }}
         whileTap={{ scale: 0.168 }}
-        onClick={() => handleMeshClick({ image: data[0].image, title: data[0].title, data: data[0].text })}
+        onClick={() => handleMeshClick({ image: data[7].image, title: data[7].title, data: data[7].text })}
       />
       <motion.mesh
+        raycast={meshBounds}
         whileHover={{ scale: 0.3 }}
         whileTap={{ scale: 0.168 }}
-        onClick={() => handleMeshClick({ image: data[0].image, title: data[0].title, data: data[0].text })}
+        onClick={() => handleMeshClick({ image: data[6].image, title: data[6].title, data: data[6].text })}
         castShadow
         receiveShadow
         geometry={nodes.Beach_4.geometry}
@@ -102,9 +108,10 @@ export function Model(props) {
         scale={0.168}
       />
       <motion.mesh
+        raycast={meshBounds}
         whileHover={{ scale: 0.3 }}
         whileTap={{ scale: 0.168 }}
-        onClick={() => handleMeshClick({ image: data[0].image, title: data[0].title, data: data[0].text })}
+        onClick={() => handleMeshClick({ image: data[8].image, title: data[8].title, data: data[8].text })}
         castShadow
         receiveShadow
         geometry={nodes.Beach_5.geometry}
@@ -113,9 +120,10 @@ export function Model(props) {
         scale={0.168}
       />
       <motion.mesh
+        raycast={meshBounds}
         whileHover={{ scale: 0.3 }}
         whileTap={{ scale: 0.168 }}
-        onClick={() => handleMeshClick({ image: data[0].image, title: data[0].title, data: data[0].text })}
+        onClick={() => handleMeshClick({ image: data[15].image, title: data[15].title, data: data[15].text })}
         castShadow
         receiveShadow
         geometry={nodes.Beach_6.geometry}
@@ -124,9 +132,10 @@ export function Model(props) {
         scale={0.168}
       />
       <motion.mesh
+        raycast={meshBounds}
         whileHover={{ scale: 0.3 }}
         whileTap={{ scale: 0.168 }}
-        onClick={() => handleMeshClick({ image: data[0].image, title: data[0].title, data: data[0].text })}
+        onClick={() => handleMeshClick({ image: data[3].image, title: data[3].title, data: data[3].text })}
         castShadow
         receiveShadow
         geometry={nodes.Beach_7.geometry}
@@ -135,9 +144,10 @@ export function Model(props) {
         scale={0.168}
       />
       <motion.mesh
+        raycast={meshBounds}
         whileHover={{ scale: 0.3 }}
         whileTap={{ scale: 0.168 }}
-        onClick={() => handleMeshClick({ image: data[0].image, title: data[0].title, data: data[0].text })}
+        onClick={() => handleMeshClick({ image: data[4].image, title: data[4].title, data: data[4].text })}
         castShadow
         receiveShadow
         geometry={nodes.Beach_8.geometry}
@@ -148,7 +158,7 @@ export function Model(props) {
       <motion.mesh
         whileHover={{ scale: 0.3 }}
         whileTap={{ scale: 0.168 }}
-        onClick={() => handleMeshClick({ image: data[0].image, title: data[0].title, data: data[0].text })}
+        onClick={() => handleMeshClick({ image: data[10].image, title: data[10].title, data: data[10].text })}
         castShadow
         receiveShadow
         geometry={nodes.Airport.geometry}
@@ -157,6 +167,7 @@ export function Model(props) {
         scale={0.166}
       />
       <motion.mesh
+        raycast={meshBounds}
         castShadow
         receiveShadow
         geometry={nodes.Port_ship.geometry}
@@ -165,14 +176,15 @@ export function Model(props) {
         scale={0.19}
         whileHover={{ scale: 0.3 }}
         whileTap={{ scale: 0.168 }}
-        onClick={() => handleMeshClick({ image: data[0].image, title: data[0].title, data: data[0].text })}
+        onClick={() => handleMeshClick({ image: data[21].image, title: data[21].title, data: data[21].text })}
       >
         <mesh castShadow receiveShadow geometry={nodes.Port_wave.geometry} material={materials["SVGMat.009"]} />
       </motion.mesh>
       <motion.mesh
+        raycast={meshBounds}
         whileHover={{ scale: 0.3 }}
         whileTap={{ scale: 0.168 }}
-        onClick={() => handleMeshClick({ image: data[0].image, title: data[0].title, data: data[0].text })}
+        onClick={() => handleMeshClick({ image: data[11].image, title: data[11].title, data: data[11].text })}
         castShadow
         receiveShadow
         geometry={nodes.Meuseum_2.geometry}
@@ -184,9 +196,10 @@ export function Model(props) {
         <mesh castShadow receiveShadow geometry={nodes.Meuseum_2_2.geometry} material={materials["SVGMat.009"]} />
       </motion.mesh>
       <motion.mesh
+        raycast={meshBounds}
         whileHover={{ scale: 0.3 }}
         whileTap={{ scale: 0.168 }}
-        onClick={() => handleMeshClick({ image: data[0].image, title: data[0].title, data: data[0].text })}
+        onClick={() => handleMeshClick({ image: data[14].image, title: data[14].title, data: data[14].text })}
         castShadow
         receiveShadow
         geometry={nodes.Meuseum_1.geometry}
@@ -198,9 +211,10 @@ export function Model(props) {
         <mesh castShadow receiveShadow geometry={nodes.Meuseum_1_2.geometry} material={materials["SVGMat.009"]} />
       </motion.mesh>
       <motion.mesh
+        raycast={meshBounds}
         whileHover={{ scale: 0.3 }}
         whileTap={{ scale: 0.168 }}
-        onClick={() => handleMeshClick({ image: data[0].image, title: data[0].title, data: data[0].text })}
+        onClick={() => handleMeshClick({ image: data[12].image, title: data[12].title, data: data[12].text })}
         castShadow
         receiveShadow
         geometry={nodes.Meuseum_3.geometry}
@@ -212,9 +226,10 @@ export function Model(props) {
         <mesh castShadow receiveShadow geometry={nodes.Meuseum_3_2.geometry} material={materials["SVGMat.009"]} />
       </motion.mesh>
       <motion.mesh
+        raycast={meshBounds}
         whileHover={{ scale: 0.3 }}
         whileTap={{ scale: 0.168 }}
-        onClick={() => handleMeshClick({ image: data[0].image, title: data[0].title, data: data[0].text })}
+        onClick={() => handleMeshClick({ image: data[17].image, title: data[17].title, data: data[17].text })}
         castShadow
         receiveShadow
         geometry={nodes.Meuseum_4.geometry}
@@ -226,9 +241,10 @@ export function Model(props) {
         <mesh castShadow receiveShadow geometry={nodes.Meuseum_4_2.geometry} material={materials["SVGMat.009"]} />
       </motion.mesh>
       <motion.mesh
+        raycast={meshBounds}
         whileHover={{ scale: 0.3 }}
         whileTap={{ scale: 0.168 }}
-        onClick={() => handleMeshClick({ image: data[0].image, title: data[0].title, data: data[0].text })}
+        onClick={() => handleMeshClick({ image: data[13].image, title: data[13].title, data: data[13].text })}
         castShadow
         receiveShadow
         geometry={nodes.Apartment_1.geometry}
@@ -237,9 +253,10 @@ export function Model(props) {
         scale={0.171}
       />
       <motion.mesh
+        raycast={meshBounds}
         whileHover={{ scale: 0.3 }}
         whileTap={{ scale: 0.168 }}
-        onClick={() => handleMeshClick({ image: data[0].image, title: data[0].title, data: data[0].text })}
+        onClick={() => handleMeshClick({ image: data[20].image, title: data[20].title, data: data[20].text })}
         castShadow
         receiveShadow
         geometry={nodes.Apartment_2.geometry}
@@ -248,9 +265,10 @@ export function Model(props) {
         scale={0.201}
       />
       <motion.mesh
+        raycast={meshBounds}
         whileHover={{ scale: 0.3 }}
         whileTap={{ scale: 0.168 }}
-        onClick={() => handleMeshClick({ image: data[0].image, title: data[0].title, data: data[0].text })}
+        onClick={() => handleMeshClick({ image: data[16].image, title: data[16].title, data: data[16].text })}
         castShadow
         receiveShadow
         geometry={nodes.Apartment_3.geometry}
@@ -259,9 +277,10 @@ export function Model(props) {
         scale={0.185}
       />
       <motion.mesh
+        raycast={meshBounds}
         whileHover={{ scale: 0.3 }}
         whileTap={{ scale: 0.168 }}
-        onClick={() => handleMeshClick({ image: data[0].image, title: data[0].title, data: data[0].text })}
+        onClick={() => handleMeshClick({ image: data[5].image, title: data[5].title, data: data[5].text })}
         castShadow
         receiveShadow
         geometry={nodes.Park.geometry}
@@ -270,9 +289,10 @@ export function Model(props) {
         scale={0.215}
       />
       <motion.mesh
+        raycast={meshBounds}
         whileHover={{ scale: 0.3 }}
         whileTap={{ scale: 0.168 }}
-        onClick={() => handleMeshClick({ image: data[0].image, title: data[0].title, data: data[0].text })}
+        onClick={() => handleMeshClick({ image: data[2].image, title: data[2].title, data: data[2].text })}
         castShadow
         receiveShadow
         geometry={nodes.Cave_2.geometry}
@@ -291,9 +311,10 @@ export function Model(props) {
         />
       </motion.mesh>
       <motion.mesh
+        raycast={meshBounds}
         whileHover={{ scale: 0.3 }}
         whileTap={{ scale: 0.168 }}
-        onClick={() => handleMeshClick({ image: data[0].image, title: data[0].title, data: data[0].text })}
+        onClick={() => handleMeshClick({ image: data[1].image, title: data[1].title, data: data[1].text })}
         castShadow
         receiveShadow
         geometry={nodes.Cave_1.geometry}
@@ -312,9 +333,10 @@ export function Model(props) {
         />
       </motion.mesh>
       <motion.mesh
+        raycast={meshBounds}
         whileHover={{ scale: 0.3 }}
         whileTap={{ scale: 0.168 }}
-        onClick={() => handleMeshClick({ image: data[0].image, title: data[0].title, data: data[0].text })}
+        onClick={() => handleMeshClick({ image: data[19].image, title: data[19].title, data: data[19].text })}
         castShadow
         receiveShadow
         geometry={nodes.Cave_3.geometry}
@@ -333,9 +355,10 @@ export function Model(props) {
         />
       </motion.mesh>
       <motion.mesh
+        raycast={meshBounds}
         whileHover={{ scale: 0.3 }}
         whileTap={{ scale: 0.168 }}
-        onClick={() => handleMeshClick({ image: data[0].image, title: data[0].title, data: data[0].text })}
+        onClick={() => handleMeshClick({ image: data[18].image, title: data[18].title, data: data[18].text })}
         castShadow
         receiveShadow
         geometry={nodes.Cave_4.geometry}
@@ -354,6 +377,7 @@ export function Model(props) {
         />
       </motion.mesh>
       <motion.mesh
+        raycast={meshBounds}
         whileHover={{ scale: 0.3 }}
         whileTap={{ scale: 0.168 }}
         onClick={() => handleMeshClick({ image: data[0].image, title: data[0].title, data: data[0].text })}
@@ -361,20 +385,16 @@ export function Model(props) {
         receiveShadow
         geometry={nodes.welcome_tranfer_location.geometry}
         material={materials["SVGMat.018"]}
-        position={[0.037, 0.011, -0.048]}
+        position={[0.037, 0.051, -0.048]}
         scale={0.244}
       />
       {popupContent && (
-        <Html center>
-          <motion.div className='popup_container' initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-             
+        <Html className='main_popup_container' center>
             {popupContent}
-            
-          </motion.div>
         </Html>
       )}
     </group>
   );
 }
 
-useGLTF.preload("https://milos.hipos.gr/wp-content/uploads/2024/04/Milos_Island_v01.glb");
+useGLTF.preload("https://welcome.hipos.gr/wp-content/uploads/2024/04/Milos_Island_v01.glb");
