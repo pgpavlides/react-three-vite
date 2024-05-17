@@ -1,8 +1,8 @@
-import React, { useRef, useState, useLayoutEffect } from "react";
+import React, { useRef, useState, useLayoutEffect, useEffect } from "react";
 import { useGLTF, Html, meshBounds } from "@react-three/drei";
 import { motion } from "framer-motion-3d";
 import { data } from "./data";
-import * as THREE from 'three';
+import * as THREE from "three";
 
 export function Model(props) {
   const { nodes, materials } = useGLTF("https://welcome.hipos.gr/wp-content/uploads/2024/04/Milos_Island_v01.glb");
@@ -10,28 +10,66 @@ export function Model(props) {
   const [hovered, setHovered] = useState(false);
 
   const [popupContent, setPopupContent] = useState(null);
+  const popupRef = useRef();
 
   const newMaterial = new THREE.MeshBasicMaterial({
-    color: 0xff0000 // Red color
-});
+    color: 0xE4E4E4, // Red color
+  });
 
   const handleMeshClick = meshData => {
     setPopupContent(
-      <div className='popup_container' initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-        <div className='popup__image__container'>
+      <motion.div
+        ref={popupRef}
+        className='popup_container'
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.8 }}
+        transition={{ duration: 0.5, ease: "easeInOut" }}
+      >
+        <motion.div
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0 }}
+          transition={{ duration: 0.85, ease: "easeInOut" }}
+          className='popup__image__container'
+        >
           <img className='popup__image' src={meshData.image} alt='Mesh Image' />
-        </div>
-        <div className='popup__data'>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0 }}
+          transition={{ duration: 0.85, ease: "easeInOut" }}
+          className='popup__data'
+        >
           <h2>{meshData.title}</h2>
           <p>{meshData.data}</p>
-          
-        </div>
-        <button className='closeButton' onClick={() => setPopupContent(null)}>
-          X
-        </button>
-      </div>
+        </motion.div>
+      </motion.div>
     );
   };
+
+  useEffect(() => {
+    // const handleClickOutside = event => {
+    //   if (popupRef.current && !popupRef.current.contains(event.target)) {
+    //     setPopupContent(null);
+    //   }
+    // };
+
+    const handleClickOutside = () => {
+      setPopupContent(null);
+    };
+
+    if (popupContent) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [popupContent]);
 
   //   const scale = 0.168;
 
@@ -41,14 +79,7 @@ export function Model(props) {
 
   return (
     <group {...props} dispose={null} scale={5} rotation={[1.6, 0, 0]} position={[0, 0, 1.3]}>
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.Milos.geometry}
-        material={newMaterial}
-        position={[0, 0.009, 0]}
-        scale={2.278}
-      >
+      <mesh castShadow receiveShadow geometry={nodes.Milos.geometry} material={newMaterial} position={[0, 0.009, 0]} scale={2.278}>
         <mesh
           castShadow
           receiveShadow
@@ -390,7 +421,7 @@ export function Model(props) {
       />
       {popupContent && (
         <Html className='main_popup_container' center>
-            {popupContent}
+          {popupContent}
         </Html>
       )}
     </group>
